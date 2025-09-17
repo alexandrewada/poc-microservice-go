@@ -7,15 +7,15 @@ import (
 	"github.com/alexandrewada/microservice-go-estudos/internal/repositories"
 )
 
-type createCategoryUseCase struct {
+type listCategoryUseCase struct {
 	repository repositories.ICategoryRepository
 }
 
-func NewcreateCategoryUseCase(repository repositories.ICategoryRepository) *createCategoryUseCase {
-	return &createCategoryUseCase{repository}
+func NewlistCategoryUseCase(repository repositories.ICategoryRepository) *listCategoryUseCase {
+	return &listCategoryUseCase{repository}
 }
 
-func (u *createCategoryUseCase) Execute(name string) error {
+func (u *listCategoryUseCase) Execute(name string) error {
 
 	category, err := entities.NewCategory(name)
 

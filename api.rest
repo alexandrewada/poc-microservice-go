@@ -1,6 +1,4 @@
-POST http://localhost:8080/categories
-Content-Type: application/json
 
-{
-  "name": "Eletrônicos"
-}
+
+
+GET http://localhost:8080/categories

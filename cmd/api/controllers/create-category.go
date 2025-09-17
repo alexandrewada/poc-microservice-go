@@ -4,6 +4,8 @@ import (
 	"net/http"
 
 	"github.com/alexandrewada/microservice-go-estudos/internal/entities"
+	"github.com/alexandrewada/microservice-go-estudos/internal/repositories"
+	use_cases "github.com/alexandrewada/microservice-go-estudos/internal/use-cases"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,7 +13,7 @@ type createCategoryInput struct {
 	Name string `json:"name" binding:"required"`
 }
 
-func CreateCategory(c *gin.Context) {
+func CreateCategory(c *gin.Context, repository repositories.ICategoryRepository) {
 	var body createCategoryInput
 
 	if err := c.ShouldBindJSON(&body); err != nil {
@@ -29,6 +31,17 @@ func CreateCategory(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{
 			"status": "fail",
 			"error":  err.Error(),
+		})
+		return
+	}
+
+	useCase := use_cases.NewcreateCategoryUseCase(repository)
+	err = useCase.Execute(body.Name)
+
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+			"status": "error",
+			"error":  "Could not create category",
 		})
 		return
 	}
